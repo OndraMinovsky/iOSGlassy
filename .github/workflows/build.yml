@@ -1,0 +1,36 @@
+name: Build iOS App 📱🚀
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Sestavit iOS aplikaci na macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Stáhnout zdrojové kódy
+        uses: actions/checkout@v4
+
+      - name: Nastavit Xcode verzi
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Sestavit projekt a vytvořit IPA
+        run: |
+          xcodebuild -project tvojeAppa.xcodeproj \
+                     -scheme tvojeAppa \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     clean archive -archivePath build/tvojeAppa.xcarchive
+          
+          xcodebuild -exportArchive \
+                     -archivePath build/tvojeAppa.xcarchive \
+                     -exportOptionsPlist ExportOptions.plist \
+                     -exportPath build/ipa
+
+      - name: Nahrát IPA jako výsledek (Artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-App-IPA
+          path: build/ipa/*.ipa
