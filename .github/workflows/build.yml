@@ -18,14 +18,14 @@ jobs:
 
       - name: Sestavit projekt a vytvořit IPA
         run: |
-          xcodebuild -project tvojeAppa.xcodeproj \
-                     -scheme tvojeAppa \
+          xcodebuild -project iOSGlass.xcodeproj \
+                     -scheme iOSGlass \
                      -sdk iphoneos \
                      -configuration Release \
-                     clean archive -archivePath build/tvojeAppa.xcarchive
+                     clean archive -archivePath build/iOSGlass.xcarchive
           
           xcodebuild -exportArchive \
-                     -archivePath build/tvojeAppa.xcarchive \
+                     -archivePath build/iOSGlass.xcarchive \
                      -exportOptionsPlist ExportOptions.plist \
                      -exportPath build/ipa
 
